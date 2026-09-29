@@ -157,13 +157,23 @@ const run = async () => {
       const repo = window.location.href.split("/")[4]
 
       primaryLinks.forEach(linkElement => {
-        const file = linkElement.innerText
+        // GitHub truncates long paths in the link text ("...c/main/java/..."),
+        // while the title attribute of file headers keeps the full path
+        const linkPath = inFilesChangedView && linkElement.title !== "" ? linkElement.title : linkElement.innerText
+        const file = linkPath
           .split("→") // when file was renamed
           .pop()
           ?.trim()
 
         // no file found
         if (!file) return
+
+        // a truncated path points to a file that does not exist:
+        // JetBrains IDEs would open an empty editor and create its parent directories
+        if (file.startsWith("...") || file.startsWith("…")) {
+          debug(`Ignored truncated file path: ${file}`)
+          return
+        }
 
         let lineNumberForFileBlock
 
