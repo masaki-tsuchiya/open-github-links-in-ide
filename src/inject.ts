@@ -78,7 +78,11 @@ const run = async () => {
       const url = `http://localhost:63342/api/file?file=${OPTIONS.localPathForRepositories}/${repo}/${file}&line=${
         line ?? "1"
       }`
-      fetch(url).catch(() => alert(`Unable to open the file.\nIs the built-in web server started on localhost:63342 ?`))
+      fetch(url).catch(() =>
+        alert(
+          `ファイルを開けませんでした。\nIDE の内蔵 Web サーバーが localhost:63342 で起動しているか確認してください。`,
+        ),
+      )
       return url
     },
   }
@@ -86,9 +90,10 @@ const run = async () => {
   const generateIconElement = (repo: string, file: string, lineNumber?: string | null) => {
     const editorIconSpanElement = document.createElement("span")
     const filename = file.split("/").pop() as string
-    let iconTitle = `Open ${filename} in ${EDITORS[OPTIONS.defaultIde].name}`
-    if (lineNumber) iconTitle = `${iconTitle} at line ${lineNumber}`
-    editorIconSpanElement.title = iconTitle
+    const editorName = EDITORS[OPTIONS.defaultIde].name
+    editorIconSpanElement.title = lineNumber
+      ? `${filename} の ${lineNumber} 行目を ${editorName} で開く`
+      : `${filename} を ${editorName} で開く`
     editorIconSpanElement.classList.add("open-in-ide-icon")
 
     const editorIconImgElement = document.createElement("img")

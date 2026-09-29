@@ -68,6 +68,10 @@ Need a feature? Want to report a bug? Feel free to open an issue or a pull reque
 
 ## Changelog
 
+### Version 1.2.5 - September 29, 2026
+
+- Translate the settings popup, icon tooltips and error messages into Japanese
+
 ### Version 1.2.4 - September 29, 2026
 
 - Fix bug: long file paths truncated by GitHub (e.g. `...c/main/java/...`) were opened as-is, which made JetBrains IDEs open an empty LightEdit window. The full path is now read from the file header's `title` attribute in the "files changed" tab, and truncated paths are no longer opened ([#46](https://github.com/lmichelin/open-github-links-in-ide/issues/46))
